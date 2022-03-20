@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.s2go_designer_drag_and_drop">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="s2go_designer_drag_and_drop"
         android:name="${applicationName}"

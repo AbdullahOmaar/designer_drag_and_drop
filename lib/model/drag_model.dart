@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class DragModel{
    bool isVisible=false;
@@ -8,7 +11,13 @@ class DragModel{
    String itemId;
    int itemIndex;
 
-   DragModel({
+
+   @override
+  String toString() {
+ return '$width $height $itemId $itemIndex $isVisible';
+  }
+
+  DragModel({
       required this.isVisible,
       required this.childWidgetItem,
       required this.width,
@@ -16,11 +25,31 @@ class DragModel{
       required this.itemId,
       required this.itemIndex,
    });
+   factory DragModel.fromJson(Map<String,dynamic> json){
+     return DragModel(
+         isVisible: json['isVisible'],
+         childWidgetItem: json['childWidgetItem'],
+         width: json['width'],
+         height: json['height'],
+         itemId: json['itemId'],
+         itemIndex: json['itemIndex']);
+   }
+Map<String, dynamic> toJson()=>{
+     "isVisible":isVisible ,
+     "childWidgetItem":isVisible ,
+     "width":width ,
+     "height":height ,
+     "itemId":itemId ,
+     "itemIndex":itemIndex ,
+};
+
    // @override
    // String toString() => 'drag model $itemId, $height,$width item index $itemIndex';
 }
 
  int itemID = 0;
+
+
 
 Widget buildWidget(Widget, width, height, itemId) {
    return InkWell(
