@@ -33,7 +33,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   List<DragModel> columnWidgets(){
     return [
-      DragModel(
+      /*DragModel(
         isVisible: false,
         childWidgetItem: buildWidget(
             AppBar(
@@ -60,7 +60,7 @@ class _ItemWidgetState extends State<ItemWidget> {
         height: 100,
         itemId: "1",
         itemIndex: 0,
-      ),
+      ),*/
       DragModel(
         isVisible: false,
         childWidgetItem: buildWidget(
@@ -79,7 +79,7 @@ class _ItemWidgetState extends State<ItemWidget> {
         itemId: "2",
         itemIndex: 0,
       ),
-      DragModel(
+  /*    DragModel(
         isVisible: false,
         childWidgetItem: buildWidget(
             Container(
@@ -98,8 +98,8 @@ class _ItemWidgetState extends State<ItemWidget> {
         height: 100,
         itemId: "3",
         itemIndex: 0,
-      ),
-      DragModel(
+      ),*/
+    /*  DragModel(
         isVisible: false,
         childWidgetItem:  buildWidget(Container(
             padding: const EdgeInsets.all(10.0),
@@ -111,7 +111,7 @@ class _ItemWidgetState extends State<ItemWidget> {
         height: 100,
         itemId: "4",
         itemIndex: 0,
-      ),
+      ),*/
       DragModel(
         isVisible: false,
         childWidgetItem:  buildWidget(Row(
@@ -187,6 +187,24 @@ class _ItemWidgetState extends State<ItemWidget> {
         itemId: "5",
         itemIndex: 0,
       ),
+      DragModel(
+        isVisible: false,
+        childWidgetItem:  buildWidget(Column(
+          children: <Widget>[
+            Expanded(
+              flex: 6, // 60%
+              child: buildColumnWidget(),
+            ),
+          ],
+        ),
+            MediaQuery.of(context).size.height,
+            100,
+            5),
+        width: 100,
+        height: 100,
+        itemId: "6",
+        itemIndex: 0,
+      ),
 
 
     ] ;
@@ -194,6 +212,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   static List<DragModel> cardWidgets = [];
 
   static List<DragModel> RowWidgets = [];
+  static List<DragModel> columnUDA = [];
 
 
   @override
@@ -206,10 +225,6 @@ class _ItemWidgetState extends State<ItemWidget> {
         'widgetItem' : e.childWidgetItem,
       } ;
       print('widgetItem : ${parsedData['widgetItem']}');
-      /* getData().then((dragModel){
-
-                       // print('returned data : ${dragModel.childWidgetItem}');
-                      });*/
     });
     dynamic Item = parsedData['widgetItem'] ;
     return Scaffold(
@@ -291,29 +306,27 @@ class _ItemWidgetState extends State<ItemWidget> {
 
               ],
             ),
-            Item(
-              child: Container(
-                width: MediaQuery.of(context).size.width * .1,
-                height: MediaQuery.of(context).size.height * .1,
-                child: ElevatedButton(
-                    onPressed: () async{
-                      cardWidgets.forEach((e){
-                        print('clicked: ${e.toJson()} ');
-                        parsedData = {
-                          'widgetItem' : e.childWidgetItem,
-                        } ;
-                        print('widgetItem : ${parsedData['widgetItem']}');
-                        /* getData().then((dragModel){
+            Container(
+              width: MediaQuery.of(context).size.width * .1,
+              height: MediaQuery.of(context).size.height * .1,
+              child: ElevatedButton(
+                onPressed: () async{
+                  cardWidgets.forEach((e){
+                    print('clicked: ${e.toJson()} ');
+                    parsedData = {
+                      'widgetItem' : e.childWidgetItem,
+                    } ;
+                    print('widgetItem : ${parsedData['widgetItem']}');
+                    /* getData().then((dragModel){
 
                        // print('returned data : ${dragModel.childWidgetItem}');
                       });*/
-                      });
-                      Item = parsedData['widgetItem'] ;
-                    },
-                    child: Text('save'),
-                ),
+                  });
+                  Item = parsedData['widgetItem'] ;
+                },
+                child: Text('save'),
               ),
-            ) ,
+            ),
           ],
         ),
       ),
@@ -345,6 +358,36 @@ class _ItemWidgetState extends State<ItemWidget> {
         },
         onAccept: (DragModel data) {
           changePlace(data, removeItemList: columnWidgets(), addItemList: RowWidgets);
+        },
+      ),
+    );
+  }
+
+  Widget buildColumnWidget() {
+    return Container(
+      // height: 700,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueAccent)
+      ),
+      child: DragTarget<DragModel>(
+        builder: (BuildContext context, candidateData,
+            List<dynamic> rejectedData) {
+          print('${candidateData.toList()}');
+          // print('${defaultTextBtn.isInCard}');
+          return Container(
+            child: Column(
+              children: columnUDA.length == 0
+                  ? [Container()]
+                  :  columnUDA.map((dragItem) {
+                return DragableItem(
+                    dragModel: dragItem,
+                    onChangePlace: _replaceItemInList);
+              }).toList(),
+            ),
+          );
+        },
+        onAccept: (DragModel data) {
+          changePlace(data, removeItemList: columnWidgets(), addItemList: columnUDA);
         },
       ),
     );
