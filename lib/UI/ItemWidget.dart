@@ -206,6 +206,27 @@ class _ItemWidgetState extends State<ItemWidget> {
         itemIndex: 0,
       ),
 
+      DragModel(
+        isVisible: false,
+        childWidgetItem:  buildWidget(Column(
+          children: <Widget>[
+            Expanded(
+              flex: 6, // 60%
+              child: buildListViewWidget(),
+            ),
+          ],
+        ),
+            MediaQuery.of(context).size.height,
+            400,
+            5),
+        width: 100,
+        height: 100,
+        itemId: "7",
+        itemIndex: 0,
+      ),
+
+
+
 
     ] ;
   }
@@ -213,6 +234,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   static List<DragModel> RowWidgets = [];
   static List<DragModel> columnUDA = [];
+  static List<DragModel> listUDA = [];
 
 
   @override
@@ -388,6 +410,36 @@ class _ItemWidgetState extends State<ItemWidget> {
         },
         onAccept: (DragModel data) {
           changePlace(data, removeItemList: columnWidgets(), addItemList: columnUDA);
+        },
+      ),
+    );
+  }
+
+  Widget buildListViewWidget() {
+    return Container(
+      // height: 700,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueAccent)
+      ),
+      child: DragTarget<DragModel>(
+        builder: (BuildContext context, candidateData,
+            List<dynamic> rejectedData) {
+          print('${candidateData.toList()}');
+          // print('${defaultTextBtn.isInCard}');
+          return Container(
+            child: ListView(
+              children: listUDA.length == 0
+                  ? [Container()]
+                  :  listUDA.map((dragItem) {
+                return DragableItem(
+                    dragModel: dragItem,
+                    onChangePlace: _replaceItemInList);
+              }).toList(),
+            )
+          );
+        },
+        onAccept: (DragModel data) {
+          changePlace(data, removeItemList: columnWidgets(), addItemList: listUDA);
         },
       ),
     );
