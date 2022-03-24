@@ -8,8 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:s2go_designer_drag_and_drop/UI/DragableItem.dart';
 import 'package:s2go_designer_drag_and_drop/model/drag_model.dart';
+import 'package:s2go_designer_drag_and_drop/model/drag_response_model.dart';
 import 'package:s2go_designer_drag_and_drop/model/pair_model.dart';
 import 'package:s2go_designer_drag_and_drop/network/api.dart';
+import 'package:s2go_designer_drag_and_drop/widgets/widgets.dart';
 
 class ItemWidget extends StatefulWidget {
 
@@ -33,52 +35,8 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   List<DragModel> columnWidgets(){
     return [
-      /*DragModel(
-        isVisible: false,
-        childWidgetItem: buildWidget(
-            AppBar(
-              title: Text("AppBar "),
-              leading: Icon(Icons.arrow_back),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.more_vert,),
-                  onPressed: () {
-                  },
-                )
-              ],
-              actionsIconTheme: IconThemeData(size: 32,),
-            ),
-            MediaQuery.of(context).size.width,
-            50,
-            1),
-        width: 100,
-        height: 100,
-        itemId: "1",
-        itemIndex: 0,
-      ),*/
-      DragModel(
-        isVisible: false,
-        childWidgetItem: buildWidget(
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: TextButton(
-                onPressed: () {},
-                child: Text('Text 1'),
-              ),
-            ),
-            100,
-            50,
-            2),
-        width: 100,
-        height: 100,
-        itemId: "2",
-        itemIndex: 0,
-      ),
+      Widgets().buildAppBar('AppBat', 400, 50),
+      Widgets().buildTextButton( 'Text 1' ),
   /*    DragModel(
         isVisible: false,
         childWidgetItem: buildWidget(
@@ -317,14 +275,19 @@ class _ItemWidgetState extends State<ItemWidget> {
                       'widgetItem' : e.childWidgetItem,
                     } ;
                     print('widgetItem : ${parsedData['widgetItem']}');
-                    /* getData().then((dragModel){
-
-                       // print('returned data : ${dragModel.childWidgetItem}');
-                      });*/
+                     getData().then((dragModel){
+                       setState(() {
+                         Widgets().callAPIdata(dragModel).then((value){
+                           cardWidgets.add(value);
+                         });
+                         // print(">>>=${dragModel}");
+                       });
+                       // print('returned data : $dragModel {DragResponseModel.fromJson(dragModel.height)}');
+                      });
                   });
                   Item = parsedData['widgetItem'] ;
                 },
-                child: Text('save'),
+                child: Text('call API'),
               ),
             ),
           ],

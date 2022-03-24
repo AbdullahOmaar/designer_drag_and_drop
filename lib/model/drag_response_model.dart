@@ -1,6 +1,7 @@
 class DragResponseModel {
   bool? isVisible;
   String? childWidgetItem;
+  String? title;
   int? width;
   int? height;
   int? itemId;
@@ -9,6 +10,7 @@ class DragResponseModel {
   DragResponseModel(
       {this.isVisible,
         this.childWidgetItem,
+        this.title,
         this.width,
         this.height,
         this.itemId,
@@ -17,6 +19,7 @@ class DragResponseModel {
   DragResponseModel.fromJson(Map<String, dynamic> json) {
     isVisible = json['isVisible'];
     childWidgetItem = json['childWidgetItem'];
+    title = json['title'];
     width = json['width'];
     height = json['height'];
     itemId = json['itemId'];
@@ -27,6 +30,7 @@ class DragResponseModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['isVisible'] = this.isVisible;
     data['childWidgetItem'] = this.childWidgetItem;
+    data['title'] = this.title;
     data['width'] = this.width;
     data['height'] = this.height;
     data['itemId'] = this.itemId;
