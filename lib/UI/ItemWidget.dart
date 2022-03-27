@@ -75,7 +75,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent),
                     ),
-                    height: 700,
+                    height: 600,
                     width: 300,
                     child: DragTarget<DragModel>(
                       builder: (BuildContext context, List<dynamic> candidateData,
@@ -95,7 +95,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                 ),
                 Container(
                   // padding: EdgeInsets.all(4),
-                  height: 700,
+                  height: 600,
                   width: 350,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -126,18 +126,51 @@ class _ItemWidgetState extends State<ItemWidget> {
                     },
                   ),
                 ),
-
                 Container(
                   // padding: EdgeInsets.all(4),
-                  height: 700,
-                  width: 250,
+                  height: 600,
+                  width: 350,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                        color:  Colors.blueAccent,
-                        width: 2,
-                      )),
-                  child: widgetProperties( 10, 10),
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.black,
+                  ),
+                  child: DragTarget<DragModel>(
+                    builder: (BuildContext context, candidateData,
+                        List<dynamic> rejectedData) {
+                      print('${candidateData.toList()}');
+                      // print('${defaultTextBtn.isInCard}');
+                      return Container(
+                        child: Card(
+                          child: Column(
+                            // children: cardWidgets.length == 0
+                            //     ? [Container()]
+                            //     :  cardWidgets.map((dragItem) {
+                            //   return DragableItem(
+                            //       dragModel: dragItem,
+                            //       onChangePlace: _replaceItemInList);
+                            // }).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    onAccept: (DragModel data) {
+                      changePlace(data, removeItemList: columnWidgets(), addItemList: cardWidgets);
+                      print("${data.toString()}, data.toString ");
+                    },
+                  ),
                 ),
+
+                // Container(
+                //   // padding: EdgeInsets.all(4),
+                //   height: 700,
+                //   width: 250,
+                //   decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color:  Colors.blueAccent,
+                //         width: 2,
+                //       )),
+                //   child: widgetProperties( 10, 10),
+                // ),
 
               ],
             ),
