@@ -15,7 +15,6 @@ class DragableItem extends StatelessWidget {
         return Draggable<DragModel>(
           data: dragModel,
           child: dragModel.childWidgetItem,
-
           feedback: Material(child: dragModel.childWidgetItem),
           // TextButton(
           //   onPressed: () {},

@@ -30,27 +30,6 @@ var singleChildScrollViewJson = '''
     "children":[
       {
           "type": "Placeholder",
-          "color": "#00FF00",
-          "strokeWidth": 6.0,
-          "fallbackWidth": 100.0,
-          "fallbackHeight": 200.0
-      },
-      {
-          "type": "Placeholder",
-          "color": "#FF0000",
-          "strokeWidth": 6.0,
-          "fallbackWidth": 100.0,
-          "fallbackHeight": 200.0
-      },
-      {
-          "type": "Placeholder",
-          "color": "#0000FF",
-          "strokeWidth": 6.0,
-          "fallbackWidth": 100.0,
-          "fallbackHeight": 200.0
-      },
-      {
-          "type": "Placeholder",
           "color": "#000000",
           "strokeWidth": 6.0,
           "fallbackWidth": 100.0,
@@ -279,8 +258,20 @@ var textButtonJson = '''
       "data": "I am a button"
     }
   }
-}
+},
 ''';
+
+ addItemInRowJson({addItemInRow}){
+  print("new> $addItemInRow");
+
+  String addItemInRowJson =
+     '''
+        "type" : "Text",
+        "data" : "old"
+     ''';
+  return  addItemInRow ?? addItemInRowJson;
+}
+
 
 var rowJson = '''
 {
@@ -292,6 +283,9 @@ var rowJson = '''
   "textDirection": "ltr",
   "verticalDirection": "down",
   "children":[
+    {
+     ${addItemInRowJson()}
+     },
     {
       "type" : "Text",
       "data" : "Flutter"
@@ -711,70 +705,7 @@ var listviewLoadmoreJson = '''
   "loadMoreUrl": "http://127.0.0.1:8080/list.json",
   "isDemo": true,
   "children":[
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
-    {
-      "type": "AssetImage",
-      "name": "assets/vip.png"
-    },
+   
     {
       "type": "AssetImage",
       "name": "assets/vip.png"

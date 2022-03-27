@@ -11,6 +11,7 @@ import 'package:s2go_designer_drag_and_drop/model/drag_model.dart';
 import 'package:s2go_designer_drag_and_drop/model/drag_response_model.dart';
 import 'package:s2go_designer_drag_and_drop/model/pair_model.dart';
 import 'package:s2go_designer_drag_and_drop/network/api.dart';
+import 'package:s2go_designer_drag_and_drop/widget_json.dart';
 import 'package:s2go_designer_drag_and_drop/widgets/widgets.dart';
 
 class ItemWidget extends StatefulWidget {
@@ -37,154 +38,8 @@ class _ItemWidgetState extends State<ItemWidget> {
     return [
       Widgets().buildAppBar('AppBat', 400, 50),
       Widgets().buildTextButton( 'Text 1' ),
-  /*    DragModel(
-        isVisible: false,
-        childWidgetItem: buildWidget(
-            Container(
-              padding: const EdgeInsets.all(15.0),
-              child: FlatButton(
-                child:  Text('Flat Button 1', style: TextStyle(fontSize: 20.0),),
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                onPressed: () {},
-              ),
-            ),
-            200,
-            70,
-            3),
-        width: 100,
-        height: 100,
-        itemId: "3",
-        itemIndex: 0,
-      ),*/
-    /*  DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(Container(
-            padding: const EdgeInsets.all(10.0),
-            child: Icon(Icons.alarm_add)),
-            100,
-            50,
-            4),
-        width: 100,
-        height: 100,
-        itemId: "4",
-        itemIndex: 0,
-      ),*/
-      DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(Row(
-          children: <Widget>[
-            Expanded(
-              flex: 6, // 60%
-              child: buildRowWidget(),
-            ),
-          ],
-        ),
-            MediaQuery.of(context).size.width,
-            100,
-            5),
-        width: 100,
-        height: 100,
-        itemId: "5",
-        itemIndex: 0,
-      ),
-      DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                enabled: false,
-                // controller: itemID,
-                textAlign: TextAlign.center,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  labelText: "${itemID}",
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  // contentPadding: const EdgeInsets.all(20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  hintText: 'title',
-                  hintStyle: const TextStyle(
-                    fontSize: 10,
-                  ),
-                ),
-              ),
-            ),
-            230,
-            50,
-            5),
-        width: 100,
-        height: 100,
-        itemId: "5",
-        itemIndex: 0,
-      ),
-      DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: const CircleAvatar(
-                backgroundColor: Colors.black12,
-                radius: 50.0,
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/NTG-Clarity-Networks-Inc.png'),
-                  radius: 63.0,
-                ),
-              ),
-            ),
-            230,
-            150,
-            150),
-        width: 100,
-        height: 100,
-        itemId: "5",
-        itemIndex: 0,
-      ),
-      DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(Column(
-          children: <Widget>[
-            Expanded(
-              flex: 6, // 60%
-              child: buildColumnWidget(),
-            ),
-          ],
-        ),
-            MediaQuery.of(context).size.height,
-            100,
-            5),
-        width: 100,
-        height: 100,
-        itemId: "6",
-        itemIndex: 0,
-      ),
-
-      DragModel(
-        isVisible: false,
-        childWidgetItem:  buildWidget(Column(
-          children: <Widget>[
-            Expanded(
-              flex: 6, // 60%
-              child: buildListViewWidget(),
-            ),
-          ],
-        ),
-            MediaQuery.of(context).size.height,
-            400,
-            5),
-        width: 100,
-        height: 100,
-        itemId: "7",
-        itemIndex: 0,
-      ),
-
-
-
+      Widgets().buildContainer( context, 'Container' ),
+      Widgets().buildRowJson( context, 'buildRowJson' ),
 
     ] ;
   }
@@ -299,8 +154,14 @@ class _ItemWidgetState extends State<ItemWidget> {
                     print('widgetItem : ${parsedData['widgetItem']}');
                      getData().then((dragModel){
                        setState(() {
+                         String addItemInRowtoJson =
+                         '''
+                            "type" : "Text",
+                            "data" : "new  "
+                         ''';
+                         addItemInRowJson(addItemInRow: addItemInRowtoJson);
                          Widgets().callAPIdata(dragModel).then((value){
-                           cardWidgets.add(value);
+                           // cardWidgets.add(value);
                          });
                          // print(">>>=${dragModel}");
                        });
@@ -343,66 +204,6 @@ class _ItemWidgetState extends State<ItemWidget> {
         },
         onAccept: (DragModel data) {
           changePlace(data, removeItemList: columnWidgets(), addItemList: RowWidgets);
-        },
-      ),
-    );
-  }
-
-  Widget buildColumnWidget() {
-    return Container(
-      // height: 700,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueAccent)
-      ),
-      child: DragTarget<DragModel>(
-        builder: (BuildContext context, candidateData,
-            List<dynamic> rejectedData) {
-          print('${candidateData.toList()}');
-          // print('${defaultTextBtn.isInCard}');
-          return Container(
-            child: Column(
-              children: columnUDA.length == 0
-                  ? [Container()]
-                  :  columnUDA.map((dragItem) {
-                return DragableItem(
-                    dragModel: dragItem,
-                    onChangePlace: _replaceItemInList);
-              }).toList(),
-            ),
-          );
-        },
-        onAccept: (DragModel data) {
-          changePlace(data, removeItemList: columnWidgets(), addItemList: columnUDA);
-        },
-      ),
-    );
-  }
-
-  Widget buildListViewWidget() {
-    return Container(
-      // height: 700,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueAccent)
-      ),
-      child: DragTarget<DragModel>(
-        builder: (BuildContext context, candidateData,
-            List<dynamic> rejectedData) {
-          print('${candidateData.toList()}');
-          // print('${defaultTextBtn.isInCard}');
-          return Container(
-            child: ListView(
-              children: listUDA.length == 0
-                  ? [Container()]
-                  :  listUDA.map((dragItem) {
-                return DragableItem(
-                    dragModel: dragItem,
-                    onChangePlace: _replaceItemInList);
-              }).toList(),
-            )
-          );
-        },
-        onAccept: (DragModel data) {
-          changePlace(data, removeItemList: columnWidgets(), addItemList: listUDA);
         },
       ),
     );
